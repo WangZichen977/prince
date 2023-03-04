@@ -1,107 +1,99 @@
 <template>
-    <el-container style="height: 500px; border: 1px solid #eee">
-  <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-    <el-menu :default-openeds="['1', '3']">
-      <el-submenu index="1">
-        <template slot="title"><i class="el-icon-message"></i>导航一</template>
-        <el-menu-item-group>
-          <template slot="title">分组一</template>
-          <el-menu-item index="1-1">选项1</el-menu-item>
-          <el-menu-item index="1-2">选项2</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="分组2">
-          <el-menu-item index="1-3">选项3</el-menu-item>
-        </el-menu-item-group>
-        <el-submenu index="1-4">
-          <template slot="title">选项4</template>
-          <el-menu-item index="1-4-1">选项4-1</el-menu-item>
-        </el-submenu>
-      </el-submenu>
-      <el-submenu index="2">
-        <template slot="title"><i class="el-icon-menu"></i>导航二</template>
-        <el-menu-item-group>
-          <template slot="title">分组一</template>
-          <el-menu-item index="2-1">选项1</el-menu-item>
-          <el-menu-item index="2-2">选项2</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="分组2">
-          <el-menu-item index="2-3">选项3</el-menu-item>
-        </el-menu-item-group>
-        <el-submenu index="2-4">
-          <template slot="title">选项4</template>
-          <el-menu-item index="2-4-1">选项4-1</el-menu-item>
-        </el-submenu>
-      </el-submenu>
-      <el-submenu index="3">
-        <template slot="title"><i class="el-icon-setting"></i>导航三</template>
-        <el-menu-item-group>
-          <template slot="title">分组一</template>
-          <el-menu-item index="3-1">选项1</el-menu-item>
-          <el-menu-item index="3-2">选项2</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="分组2">
-          <el-menu-item index="3-3">选项3</el-menu-item>
-        </el-menu-item-group>
-        <el-submenu index="3-4">
-          <template slot="title">选项4</template>
-          <el-menu-item index="3-4-1">选项4-1</el-menu-item>
-        </el-submenu>
-      </el-submenu>
-    </el-menu>
-  </el-aside>
-  
-  <el-container>
-    <el-header style="text-align: right; font-size: 12px">
-      <el-dropdown>
-        <i class="el-icon-setting" style="margin-right: 15px"></i>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>查看</el-dropdown-item>
-          <el-dropdown-item>新增</el-dropdown-item>
-          <el-dropdown-item>删除</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-      <span>王小虎</span>
-    </el-header>
-    
-    <el-main>
-      <el-table :data="tableData">
-        <el-table-column prop="date" label="日期" width="140">
-        </el-table-column>
-        <el-table-column prop="name" label="姓名" width="120">
-        </el-table-column>
-        <el-table-column prop="address" label="地址">
-        </el-table-column>
-      </el-table>
-    </el-main>
-  </el-container>
-</el-container>
+  <div class="homeContainer">
+    <el-header style="text-align: right; font-size: 12px"> </el-header>
+
+    <el-container>
+      <el-aside width="200px">
+        <el-menu v-for="(item, index) in listData" :key="index">
+          <el-menu-item :index="index">
+            <template slot="title">{{ item }}</template>
+          </el-menu-item>
+        </el-menu>
+      </el-aside>
+      <el-main class="main">
+        <el-card class="box-card" v-for="(item,index) in arrData" :key="index+'a'">
+          <div slot="header" class="clearfix">
+            <span>device_info:{{item.device_info}}</span>
+          </div>
+          <div class="mb-10">
+            BMC_IP:{{item.bmc_ip}}
+          </div>
+          <div>
+            OS_IP:{{item.host_ip}}
+          </div>        
+        </el-card>
+      </el-main>
+    </el-container>
+  </div>
 </template>
 
 
 <style>
-  .el-header {
-    background-color: #B3C0D1;
-    color: #333;
-    line-height: 60px;
-  }
-  
-  .el-aside {
-    color: #333;
-  }
+body {
+  background-color: F1FAFA;
+}
+.homeContainer {
+  height: calc(100vh)
+}
+.el-header {
+  background-color: #b3c0d1;
+  color: #333;
+  line-height: 60px;
+}
+.el-container {
+  /* height: calc(100vh - 60px); */
+}
+.el-menu {
+  border: none;
+}
+.el-aside {
+  color: #333;
+  height: calc(100vh - 60px);
+}
+.box-card {
+  width: 25%;
+}
+.main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.mb-10 {
+  margin-bottom: 10px;
+}
+.el-card {
+  box-shadow:0px 5px 20px 0px rgb(0 0 0 / 30%) !important;
+  border-radius: 30px;
+}
+.el-card:hover {
+  box-shadow:0px 5px 12px 0px #336699 !important;
+}
 </style>
 
 <script>
-  export default {
-    name: "HomePage",
-    data() {
-      const item = {
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      };
-      return {
-        tableData: Array(20).fill(item)
-      }
-    }
-  };
+import axios from "axios";
+export default {
+  name: "HomePage",
+  data() {
+    return {
+      listData: [],
+      arrData: [],
+    };
+  },
+  created() {},
+  mounted() {
+    axios.get("http://192.168.1.2:8888/device_type/").then((res) => {
+      console.log(res);
+      this.listData = res.data;
+      console.log(this.arrData);
+    });
+    axios.get("http://192.168.1.2:8888/device_info/").then((res) => {
+      console.log(res);
+      this.arrData = res.data[0]['PTG-23'];
+      console.log(this.arrData);
+    });
+    console.log("mounted");
+    console.log(this.arrData);
+  },
+};
 </script>
